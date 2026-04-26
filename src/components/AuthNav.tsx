@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Bell, LogOut, Pencil, User } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 
 type Profile = {
@@ -13,6 +14,7 @@ type Profile = {
 
 export default function AuthNav() {
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [unreadCount, setUnreadCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   async function handleLogout() {
@@ -33,7 +35,7 @@ export default function AuthNav() {
 
       const { data: profileData, error } = await supabase
         .from("profiles")
-        .select("username, display_name, role, avatar_url, theme_preference")
+        .select("username, display_name, role, avatar_url")
         .eq("id", userData.user.id)
         .single();
 
@@ -43,7 +45,14 @@ export default function AuthNav() {
         return;
       }
 
+      const { count } = await supabase
+        .from("notifications")
+        .select("id", { count: "exact", head: true })
+        .eq("recipient_id", userData.user.id)
+        .eq("is_read", false);
+
       setProfile(profileData);
+      setUnreadCount(count ?? 0);
       setIsLoading(false);
     }
 
@@ -100,28 +109,55 @@ export default function AuthNav() {
             Admin
           </span>
         )}
+
+        {profile.role === "moderator" && (
+          <span className="rounded-full border border-sky-700 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-sky-400">
+            Moderator
+          </span>
+        )}
       </div>
 
       <div className="flex flex-wrap items-center justify-end gap-3">
         <Link
           href={`/user/${profile.username}`}
-          className="text-sm font-semibold text-amber-500 transition hover:text-amber-400"
+          title="Profile"
+          className="text-amber-500 transition hover:text-amber-400"
         >
-          Profile
+          <User className="h-5 w-5" />
         </Link>
 
         <Link
           href="/profile/edit"
-          className="text-sm font-semibold text-amber-500 transition hover:text-amber-400"
+          title="Edit Profile"
+          className="text-amber-500 transition hover:text-amber-400"
         >
-          Edit Profile
+          <Pencil className="h-5 w-5" />
+        </Link>
+
+        <Link
+          href="/notifications"
+          title="Notifications"
+          className={`relative transition ${
+            unreadCount > 0
+              ? "text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.9)]"
+              : "text-amber-500 hover:text-amber-400"
+          }`}
+        >
+          <Bell className="h-5 w-5" />
+
+          {unreadCount > 0 && (
+            <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-700 px-1 text-[10px] font-bold text-white">
+              {unreadCount}
+            </span>
+          )}
         </Link>
 
         <button
           onClick={handleLogout}
-          className="text-sm font-semibold text-amber-500 transition hover:text-red-800"
+          title="Log Out"
+          className="text-amber-500 transition hover:text-red-800"
         >
-          Log Out
+          <LogOut className="h-5 w-5" />
         </button>
       </div>
     </div>

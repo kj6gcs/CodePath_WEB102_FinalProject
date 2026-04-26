@@ -15,6 +15,8 @@ export default function DeleteCommentButton({
 }: DeleteCommentButtonProps) {
   const router = useRouter();
 
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
   const [canDelete, setCanDelete] = useState(false);
 
   useEffect(() => {
@@ -23,10 +25,7 @@ export default function DeleteCommentButton({
 
       if (!userData.user) return;
 
-      if (userData.user.id === commentUserId) {
-        setCanDelete(true);
-        return;
-      }
+      setCurrentUserId(userData.user.id);
 
       const { data: profile } = await supabase
         .from("profiles")
@@ -34,7 +33,14 @@ export default function DeleteCommentButton({
         .eq("id", userData.user.id)
         .single();
 
-      if (profile?.role === "admin") {
+      const role = profile?.role ?? "user";
+      setCurrentUserRole(role);
+
+      if (
+        userData.user.id === commentUserId ||
+        role === "admin" ||
+        role === "moderator"
+      ) {
         setCanDelete(true);
       }
     }
@@ -43,18 +49,49 @@ export default function DeleteCommentButton({
   }, [commentUserId]);
 
   async function handleDelete() {
-    const confirmed = window.confirm("Delete this comment?");
+    const isOwner = currentUserId === commentUserId;
+    const isModeratorAction =
+      currentUserRole === "admin" || currentUserRole === "moderator";
+
+    const confirmed = window.confirm(
+      isOwner
+        ? "Delete this comment? This cannot be undone."
+        : "Remove this comment as a moderator/admin?",
+    );
 
     if (!confirmed) return;
 
+    if (isOwner && !isModeratorAction) {
+      const { error } = await supabase
+        .from("comments")
+        .delete()
+        .eq("id", commentId);
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      router.refresh();
+      return;
+    }
+
     const { error } = await supabase
       .from("comments")
-      .delete()
+      .update({
+        content: "[POST REMOVED BY ADMIN/MODERATOR]",
+        is_removed: true,
+        removed_by: currentUserId,
+        removed_at: new Date().toISOString(),
+      })
       .eq("id", commentId);
 
-    if (!error) {
-      router.refresh();
+    if (error) {
+      alert(error.message);
+      return;
     }
+
+    router.refresh();
   }
 
   if (!canDelete) return null;

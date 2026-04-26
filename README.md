@@ -88,6 +88,10 @@ The following **additional** features are implemented:
 - [x] Users can add social links to their profile, and known platforms display as recognizable icons.
 - [x] Users can edit their post galleries by adding, removing, and reordering images.
 - [x] Row Level Security policies protect posts, comments, profiles, votes, and storage uploads.
+- [x] Admins and Moderators have badges that reflect their status next to their display names on their user profile, and next to their name in the navbar (right side) when logged in.
+- [x] Users can comment on other comments.
+- [x] Posters will be notified (via notification icon in navbar) of new top level comments on their posts, and commenters will be notified of new top level comments on their comments.
+- [x] Users can collapse and/or expand comments from every level.
 
 ## Video Walkthrough
 

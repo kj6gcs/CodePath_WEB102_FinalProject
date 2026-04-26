@@ -4,10 +4,10 @@ import { supabase } from "@/lib/supabaseClient";
 import CommentForm from "@/components/CommentForm";
 import VoteControls from "@/components/VoteControls";
 import PostActions from "@/components/PostActions";
-import DeleteCommentButton from "@/components/DeleteCommentButton";
 import PostImageGallery from "@/components/PostImageGallery";
 import BenchIDCard from "@/components/BenchIDCard";
 import VideoEmbed from "@/components/VideoEmbed";
+import CommentCard from "@/components/CommentCard";
 
 type PageProps = {
   params: Promise<{
@@ -20,13 +20,13 @@ type Comment = {
   created_at: string;
   content: string;
   user_id: string | null;
+  parent_comment_id: string | null;
   profiles: {
     username: string;
     display_name: string;
     role: string;
     avatar_url: string | null;
   } | null;
-  downvotes: number;
 };
 
 type PostImage = {
@@ -61,7 +61,7 @@ export default async function PostPage({ params }: PageProps) {
   ),
   comments(
     *,
-    profiles(username, display_name, role, avatar_url)
+    profiles!comments_user_id_fkey(username, display_name, role, avatar_url)
   )
 `,
     )
@@ -71,6 +71,24 @@ export default async function PostPage({ params }: PageProps) {
   if (error || !post) {
     notFound();
   }
+
+  const comments = (post.comments ?? []) as Comment[];
+
+  const topLevelComments = comments.filter(
+    (comment) => !comment.parent_comment_id,
+  );
+
+  const repliesByParentId = comments.reduce<Record<string, Comment[]>>(
+    (acc, comment) => {
+      if (comment.parent_comment_id) {
+        acc[comment.parent_comment_id] ??= [];
+        acc[comment.parent_comment_id].push(comment);
+      }
+
+      return acc;
+    },
+    {},
+  );
 
   return (
     <main className="min-h-screen bg-stone-950 px-6 py-12 text-stone-100">
@@ -177,6 +195,7 @@ export default async function PostPage({ params }: PageProps) {
               initialUpvotes={post.upvotes}
               initialDownvotes={post.downvotes ?? 0}
             />
+
             <PostActions postId={post.id} postUserId={post.user_id} />
           </div>
         </div>
@@ -187,49 +206,14 @@ export default async function PostPage({ params }: PageProps) {
           <CommentForm postId={post.id} />
 
           <div className="mt-8 space-y-4">
-            {post.comments && post.comments.length > 0 ? (
-              post.comments.map((comment: Comment) => (
-                <div
+            {topLevelComments.length > 0 ? (
+              topLevelComments.map((comment) => (
+                <CommentCard
                   key={comment.id}
-                  className="rounded-xl border border-stone-800 bg-stone-950 p-4"
-                >
-                  <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      {comment.profiles?.avatar_url && (
-                        <img
-                          src={comment.profiles.avatar_url}
-                          alt={comment.profiles.display_name}
-                          className="h-7 w-7 rounded-full border border-stone-700 object-cover"
-                        />
-                      )}
-
-                      <p className="text-xs uppercase tracking-wide text-stone-500">
-                        Stamped by{" "}
-                        <Link
-                          href={
-                            comment.profiles
-                              ? `/user/${comment.profiles.username}`
-                              : "#"
-                          }
-                          className="font-semibold text-amber-500 transition hover:text-amber-400"
-                        >
-                          {comment.profiles?.display_name ??
-                            "Unknown Leatherworker"}
-                        </Link>{" "}
-                        • {new Date(comment.created_at).toLocaleString()}
-                      </p>
-                    </div>
-
-                    <DeleteCommentButton
-                      commentId={comment.id}
-                      commentUserId={comment.user_id}
-                    />
-                  </div>
-
-                  <p className="whitespace-pre-wrap text-stone-300">
-                    {comment.content}
-                  </p>
-                </div>
+                  comment={comment}
+                  repliesByParentId={repliesByParentId}
+                  postId={post.id}
+                />
               ))
             ) : (
               <p className="mt-6 text-stone-500">
