@@ -4,7 +4,7 @@ Submitted by: **Robby Wideman**
 
 This web app: **is a place for leathercrafters to share the tips, tricks, and guidance. Users will be able to post questions/solutions to leatherworking tasks, discuss multiple topics about the hobby/passion, and even show off some of their work.**
 
-Time spent: **18** hours _(at least)_ spent in total
+Time spent: **20** hours _(at least)_ spent in total
 
 ## Required Features
 
@@ -92,6 +92,7 @@ The following **additional** features are implemented:
 - [x] Users can comment on other comments.
 - [x] Posters will be notified (via notification icon in navbar) of new top level comments on their posts, and commenters will be notified of new top level comments on their comments.
 - [x] Users can collapse and/or expand comments from every level.
+- [x] Configured production hosting on Vercel with custom domain integration, including DNS CNAME verification and subdomain routing (`forum.widemanleather.works`).
 
 ## Video Walkthrough
 
