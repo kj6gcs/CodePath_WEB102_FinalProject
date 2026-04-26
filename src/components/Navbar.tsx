@@ -38,10 +38,6 @@ export default function Navbar() {
             <AuthNav />
           </div>
         </div>
-
-        <div className="justify-self-end">
-          <AuthNav />
-        </div>
       </div>
     </nav>
   );
