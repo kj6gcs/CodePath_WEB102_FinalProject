@@ -35,7 +35,7 @@ The following **required** functionality is completed:
   - Users can leave comments underneath a post on the post page
   - Each post includes an upvote button on the post page.
     - Each click increases the post's upvotes count by one
-    - Users can upvote any post any number of times \*[NOTE: I'm a firm believer that in forums with up/downvotes, users should only get to vote once in either direction or choose not to vote and/or change their vote, therefore, ***my*** app only allows users to vote once. I also believe that if you allow upvotes, there should be the choice of down votes - and ***my*** project reflects that]\*
+    - Users can upvote any post any number of times _[NOTE: I'm a firm believer that in forums with up/downvotes, users should only get to vote once in either direction or choose not to vote and/or change their vote, therefore, ***my*** app only allows users to vote once. I also believe that if you allow upvotes, there should be the choice of down votes - and ***my*** project reflects that]_
 
 - [x] **A post that a user previously created can be edited or deleted from its post pages**
   - After a user creates a new post, they can go back and edit the post
