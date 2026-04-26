@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Wideman Leatherworks theme variables */
+:root,
+.theme-midnight {
+  --wl-bg-main: #0c0a09;
+  --wl-bg-card: #1c1917;
+  --wl-bg-soft: #292524;
+  --wl-text-main: #f5f5f4;
+  --wl-text-muted: #a8a29e;
+  --wl-accent: #f59e0b;
+  --wl-accent-dark: #d97706;
+}
+
+.theme-saddle {
+  --wl-bg-main: #1c1208;
+  --wl-bg-card: #3b2412;
+  --wl-bg-soft: #5a3518;
+  --wl-text-main: #fff7ed;
+  --wl-text-muted: #fed7aa;
+  --wl-accent: #fb923c;
+  --wl-accent-dark: #ea580c;
+}
+
+.theme-forge {
+  --wl-bg-main: #120909;
+  --wl-bg-card: #251111;
+  --wl-bg-soft: #3b1515;
+  --wl-text-main: #fff1f2;
+  --wl-text-muted: #fecdd3;
+  --wl-accent: #f97316;
+  --wl-accent-dark: #c2410c;
+}
+
+/* Theme overrides for the classes we use most */
+.bg-stone-950 {
+  background-color: var(--wl-bg-main);
+}
+
+.bg-stone-900,
+.bg-stone-900\/70,
+.bg-stone-900\/80 {
+  background-color: var(--wl-bg-card);
+}
+
+.bg-stone-950\/60 {
+  background-color: var(--wl-bg-main);
+}
+
+.text-stone-100,
+.text-stone-50 {
+  color: var(--wl-text-main);
+}
+
+.text-stone-300,
+.text-stone-400,
+.text-stone-500 {
+  color: var(--wl-text-muted);
+}
+
+.text-amber-500,
+.text-amber-400 {
+  color: var(--wl-accent);
+}
+
+.bg-amber-600,
+.bg-amber-500 {
+  background-color: var(--wl-accent-dark);
+}
+
+.border-amber-600,
+.border-amber-700,
+.border-amber-800\/60 {
+  border-color: var(--wl-accent);
+}
+
+.theme-naval {
+  --wl-bg-main: #0f172a; /* slate-900 */
+  --wl-bg-card: #1e293b; /* slate-800 */
+  --wl-bg-soft: #334155; /* slate-700 */
+  --wl-text-main: #f8fafc; /* slate-50 */
+  --wl-text-muted: #cbd5e1; /* slate-300 */
+  --wl-accent: #fbbf24; /* amber-400 */
+  --wl-accent-dark: #f59e0b; /* amber-500 */
+}
