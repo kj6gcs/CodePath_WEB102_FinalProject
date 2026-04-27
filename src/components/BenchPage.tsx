@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import VoteControls from "@/components/VoteControls";
+export const dynamic = "force-dynamic";
 
 type BenchPageProps = {
   slug: string;

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import VoteControls from "@/components/VoteControls";
 import PostFeed from "@/components/PostFeed";
+export const dynamic = "force-dynamic";
 
 const benches = [
   {

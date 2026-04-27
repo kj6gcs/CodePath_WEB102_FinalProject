@@ -111,7 +111,7 @@ GIF created with ...
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+One of the biggest challenges was setting up Supabase. I'm utilizing Supabase for posts, comments, up/downvotes (aka "Awl Yeahs" and "Skive Downs"), user profiles (and thus a form of authentication), post image stoarge, and even user profile avatars. A lot of Supabase that I've used in the past is pretty much point and click; however, there was a lot of SQL schema adjusting as I continued to create this project and want to refine things. I utilized AI quite a bit to get the SQL/schema queries correct - and end the end it came together quite nicely in my opinion.
 
 ## License
 
