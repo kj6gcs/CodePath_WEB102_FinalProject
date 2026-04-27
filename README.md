@@ -4,7 +4,7 @@ Submitted by: **Robby Wideman**
 
 This web app: **is a place for leathercrafters to share the tips, tricks, and guidance. Users will be able to post questions/solutions to leatherworking tasks, discuss multiple topics about the hobby/passion, and even show off some of their work.**
 
-Time spent: **20** hours _(at least)_ spent in total
+Time spent: **25** hours _(at least)_ spent in total
 
 ## Required Features
 
@@ -74,7 +74,7 @@ The following **additional** features are implemented:
 - [x] The image gallery modal can be closed by clicking the "x" in the top right of the modal, clicking out of the modal area, and my favorite - by tapping the ESC key.
 - [x] When users select their web page theme from the drop down, the setting is saved in Supabase under their profile and not simply locally.
 - [x] Users can upvote or downvote posts, but each user can only have one active vote per post. Votes can be changed or removed.
-- [x] Post cards show image or video thumbnails on the home feed and bench pages.
+- [x] Post cards show image or video thumbnails on the home feed.
 - [x] YouTube links are embedded directly into post pages.
 - [x] Posts can reference another post and display a linked referenced-post card.
 - [x] Each post has a branded Bench ID with a copyable full UUID for referencing.
@@ -98,20 +98,19 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+Here’s a video walkthrough of the implemented required features:
 
-<!-- Replace this with whatever GIF tool you used! -->
-
-GIF created with ...
-
-<!-- Recommended tools:
-[Kap](https://getkap.co/) for macOS
-[ScreenToGif](https://www.screentogif.com/) for Windows
-[peek](https://github.com/phw/peek) for Linux. -->
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=hnJB0w6gY6o" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.youtube.com/vi/hnJB0w6gY6o/hqdefault.jpg" width="600" alt="Video Walkthrough Thumbnail">
+  </a>
+</p>
 
 ## Notes
 
 One of the biggest challenges was setting up Supabase. I'm utilizing Supabase for posts, comments, up/downvotes (aka "Awl Yeahs" and "Skive Downs"), user profiles (and thus a form of authentication), post image stoarge, and even user profile avatars. A lot of Supabase that I've used in the past is pretty much point and click; however, there was a lot of SQL schema adjusting as I continued to create this project and want to refine things. I utilized AI quite a bit to get the SQL/schema queries correct - and end the end it came together quite nicely in my opinion.
+
+Also, I was once more sick while recording the video, so I apologize in advance for all the sniffing, coughs, and vocal fry/voice cracks you'll hear. It's been a rough few days, lol!
 
 ## License
 
